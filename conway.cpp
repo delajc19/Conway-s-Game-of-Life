@@ -1,21 +1,22 @@
 #include <stdio.h>
+#include <windows.h>
 
 using namespace std;
 
-#define N 26
+#define N 31
 const char c = (char)254;
 
 //Display board
 void showBoard(char b[N][N]){
-    printf("-----------------------------------------------------------------------------------------------------------\n");
+    // printf("-----------------------------------------------------------------------------------------------------------\n");
     for(int i = 0; i < N; i++){
         for(int j = 0; j < N; j++){
             printf("%c",b[i][j]);
         }
         printf("\n");
     }
-    printf("-----------------------------------------------------------------------------------------------------------\n");
-
+    printf("\r");
+    // printf("-----------------------------------------------------------------------------------------------------------\n");
 }
 
 //Count the live neighbors of a cell at board[i][j]
@@ -50,9 +51,7 @@ void generate(char b[N][N], int t[N][N], int &pop){
     for(int i = 1; i<n-1; i++){
         for(int j = 1; j<n-1; j++){
             t[i][j] = countLiveNeighbors(b,i,j);
-            // printf("%d ",t[i][j]);
         }
-        // printf("\n");
     }
 
     for(int i = 1; i<n-1; i++){
@@ -74,7 +73,7 @@ void generate(char b[N][N], int t[N][N], int &pop){
     }
 }
 
-void setup(char b[N][N]){
+void setup(char b[N][N], int &pop){
     for(int i = 0; i < N; i++){
         for(int j = 0; j < N; j++){
             b[i][j] = ' ';
@@ -84,18 +83,33 @@ void setup(char b[N][N]){
     //starting population
 
     //Glider
-    // b[6][6] = c;
-    // b[6][5] = c;
-    // b[6][7] = c;
-    // b[5][7] = c;
-    // b[4][6] = c;
+    b[6][6] = c;
+    b[6][5] = c;
+    b[6][7] = c;
+    b[5][7] = c;
+    b[4][6] = c;
 
-    //4 blinker generator
-    b[11][13] = c;
-    b[12][13] = c;
-    b[13][13] = c;
-    b[14][13] = c;
-    b[15][13] = c;
+    //another glider
+    b[6+5][6] = c;
+    b[6+5][5] = c;
+    b[6+5][7] = c;
+    b[5+5][7] = c;
+    b[4+5][6] = c;
+
+    // 4 blinker generator
+    // b[11][13] = c;
+    // b[12][13] = c;
+    // b[13][13] = c;
+    // b[14][13] = c;
+    // b[15][13] = c;
+
+    for(int i = 0; i < N; i++){
+        for(int j = 0; j < N; j++){
+            if(isLive(b,i,j)){pop++;}
+        }
+    }
+
+    
 }
 
 
@@ -103,22 +117,27 @@ void setup(char b[N][N]){
 //Driver Code
 int main(){
     //Change the population and the maximum number of generations to simulate
-    int population = 5;
+    int population = 0;
     int maxGen = 100;
+    unsigned delay = 100;
 
     char board[N][N] = {' '};
     int ntable[N][N] = {0};
 
     //Initialize board
-    setup(board);
-
+    setup(board,population);
     int gen = 0;
 
     //loop to run simulation
     while(gen <= maxGen){
         printf("Population: %d          Generation: %d\n", population, gen);
         showBoard(board);
+
+        printf("\r");
+        fflush(stdout);
+
         generate(board,ntable, population);
+        Sleep(delay);
 
         if(population==0){break;}
         
