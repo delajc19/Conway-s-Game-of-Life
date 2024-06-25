@@ -1,11 +1,9 @@
 #include <stdio.h>
 
-
 using namespace std;
 
 #define N 26
 const char c = (char)254;
-
 
 
 void showBoard(char b[N][N]){
