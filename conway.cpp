@@ -3,7 +3,7 @@
 
 using namespace std;
 
-#define N 31
+#define N 24
 const char c = (char)254;
 
 //Display board
@@ -15,7 +15,6 @@ void showBoard(char b[N][N]){
         }
         printf("\n");
     }
-    printf("\r");
     // printf("-----------------------------------------------------------------------------------------------------------\n");
 }
 
@@ -118,8 +117,8 @@ void setup(char b[N][N], int &pop){
 int main(){
     //Change the population and the maximum number of generations to simulate
     int population = 0;
-    int maxGen = 100;
-    unsigned delay = 100;
+    int maxGen = 200;
+    unsigned delay = 400;
 
     char board[N][N] = {' '};
     int ntable[N][N] = {0};
@@ -132,10 +131,6 @@ int main(){
     while(gen <= maxGen){
         printf("Population: %d          Generation: %d\n", population, gen);
         showBoard(board);
-
-        printf("\r");
-        fflush(stdout);
-
         generate(board,ntable, population);
         Sleep(delay);
 
